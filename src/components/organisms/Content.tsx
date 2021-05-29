@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useColors } from '../../contexts/colors';
 /* import ColorsHeader from '../components/ColorsHeader'; */
-/* import ColorColumn from '../components/ColorColumn'; */
+import ColorColumn from '../molecules/ColorColumn';
 /* import AddColorColumn from '../../components/AddColorColumn'; */
 
 const Content = () => {
@@ -12,8 +12,8 @@ const Content = () => {
     <ContentWrapper>
         {/* <ColorsHeader /> */}
         <ColorsBody>
-            {/* {colors.map(color=> <ColorColumn color={color} key={color.id} />)}
-            <AddColorColumn /> */}
+            {colors.map(color=> <ColorColumn color={color} key={color.id} />)}
+            {/*<AddColorColumn /> */}
         </ColorsBody>
     </ContentWrapper>
   );
