@@ -44,10 +44,11 @@ export const useColors = (): IColorContext => useContext(ColorsContext);
 const randomBetweenInts = (min: number, max: number): number => 
   Math.floor(Math.random() * (max - min + 1) + min);
 
-const generateShades = (color: any, shadeStepCount: number, shadeStepSize: number): IShade => {
+const generateShades = (color: any, shadeStepCount: number, shadeStepSize: number, shades?: IShade[]): IShade[] => {
+  console.log(shades);
   const mainIndex = Math.floor(shadeStepCount / 2);
   const oddOffset = shadeStepCount % 2 ? 0 : 1;
-  const halfToDarken = shadeStepCount - (mainIndex + oddOffset)
+  const halfToDarken = shadeStepCount - (mainIndex + oddOffset);
   const halfToLighten = mainIndex - 1;
 
   return new Array(shadeStepCount)
@@ -59,12 +60,12 @@ const generateShades = (color: any, shadeStepCount: number, shadeStepSize: numbe
       if (i > mainIndex) shade = tinycolor(color.toRgb()).darken((halfToDarken - (shadeStepCount - i)) * shadeStepSize);
 
       return {
-        id: uid(),
+        id: shades?.[i]?.id || uid(),
         color: shade,
-        isMain: i === mainIndex,
+        isMain: shades?.[i]?.isMain || i === mainIndex,
         isLight: shade.isLight(),
-      }
-    })
+      };
+    });
 };
 
 const getNewColor = (shadeStepCount: number, shadeStepSize: number) => {
@@ -91,8 +92,14 @@ export const ColorsProvider: React.FC = ({ children }) => {
       ...color,
       shades: generateShades(color.color, shadeStepCount, shadeStepSize)
     }))
-  ), [shadeStepCount])
-  /* useEffect(() => color., [setShadeStepSize]) */
+  ), [shadeStepCount]);
+
+  useEffect(() => setColors(
+    colors.map(color => ({
+      ...color,
+      shades: generateShades(color.color, shadeStepCount, shadeStepSize, color.shades)
+    }))
+  ), [shadeStepSize]);
 
 	const addColor = (): void => colors
 		? setColors(prev => [...prev, getNewColor(shadeStepCount, shadeStepSize)])
