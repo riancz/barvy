@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useColors } from '../../contexts/colors';
 /* import ColorsHeader from '../components/ColorsHeader'; */
 /* import ColorColumn from '../components/ColorColumn'; */
-import AddColorColumn from '../../components/AddColorColumn';
+/* import AddColorColumn from '../../components/AddColorColumn'; */
 
 const Content = () => {
   const { colors } = useColors();

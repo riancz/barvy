@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-interface IButton extends  {
+interface IButton extends React.HTMLProps<HTMLButtonElement> {
   label: string;
 }
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useColors } from '../../contexts/colors';
-import NumericInput from '../components/NumericInput';
-import Button from '../components/Button';
+import NumericInput from '../atoms/NumericInput';
+import Button from '../atoms/Button';
 
 const Menu = () => {
     const {
@@ -35,11 +35,11 @@ const Menu = () => {
 const MenuWrapper = styled.span`
 	display: flex;
 	flex-direction: column;
-    width: 250px;
+  width: 250px;
 	height: 100%;
 	padding: 10px;
 	border-left: 1px solid #DDDDEF;
-    box-shadow: 0 0 15px #00003F2F;
+  box-shadow: 0 0 15px #00003F2F;
 `;
 
 export default Menu;

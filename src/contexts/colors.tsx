@@ -20,14 +20,14 @@ interface IColorContext {
 
 const ColorsContext = createContext({
 	colors: [],
-	addColor: emptyFn,
-	removeColor: argFn,
-	changeColor: argFn,
-  regenerateColor: argFn,
+	addColor: () => {},
+	removeColor: () => {},
+	changeColor: () => {},
+  regenerateColor: () => {},
   shadeStepSize: 5,
-  changeShadeStepSize: argFn,
+  changeShadeStepSize: () => {},
   shadeStepCount: 7,
-  changeShadeStepCount: argFn,
+  changeShadeStepCount: () => {},
 });
 
 export const useColors = (): IColorContext => useContext(ColorsContext);
