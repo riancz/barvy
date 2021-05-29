@@ -7,32 +7,23 @@ import Menu from '../components/organisms/Menu';
 const Main = () => {
   return (
     <ColorsProvider>
-      <Content />
-      <Menu />
+      <AppWrapper>
+        <Content />
+        <Menu />
+      </AppWrapper>
     </ColorsProvider>
   );
 };
 
-const OverflowDiv = styled.div`
-  flex: 1;
-	width: 100%;
-    height: 100%;
-    overflow-x: scroll;
-`;
-
-const MainWrapper = styled.div`
+const AppWrapper = styled.div`
 	display: flex;
-  flex: 1;
-  flex-direction: column;
-	padding: 0 10px 10px 10px;
+	width: 100%;
 	height: 100%;
-	box-sizing: border-box;
+	font-family: 'Quicksand', sans-serif;
 	background-color: #FFFFFF;
-`;
-
-const ColorsBody = styled.div`
-  display: flex;
-  height: 100%;
+	box-shadow: 10px 10px 20px #00003F2F;
+	border-radius: 10px;
+	overflow: hidden;
 `;
 
 export default Main;

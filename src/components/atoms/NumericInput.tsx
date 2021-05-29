@@ -20,6 +20,8 @@ const StyledInput = styled.input`
     padding: 5px;
     border-radius: 5px;
     border: 1px solid #8080A4;
+    appearance: textfield;
+}
 
     &:focus, &:active {
         outline: none;

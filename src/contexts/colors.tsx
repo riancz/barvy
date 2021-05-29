@@ -1,9 +1,15 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import tinycolor from 'tinycolor2';
 import { uid } from 'uid';
 
 interface IColor {
   id: string;
   color: string;
+  shades: {
+    id: string;
+    color: string;
+    isLight: boolean;
+  }[];
 }
 
 interface IColorContext {
@@ -35,14 +41,26 @@ export const useColors = (): IColorContext => useContext(ColorsContext);
 const randomBetweenInts = (min: number, max: number): number => 
   Math.floor(Math.random() * (max - min + 1) + min);
 
-const getNewColor = () => {
-    const r = randomBetweenInts(0, 255).toString(16).padStart(2, '0'),
-    g = randomBetweenInts(0, 255).toString(16).padStart(2, '0'),
-    b = randomBetweenInts(0, 255).toString(16).padStart(2, '0');
+const getNewColor = (shadeStepCount, setStepSize) => {
+  const color = tinycolor.random();
 
 	return {
 		id: uid(),
-		color: `#${r}${g}${b}`,
+		color,
+    shades: new Array(shadeStepCount)
+      .fill(null)
+      .map((_, i) => {
+        let shade = color;
+        const mainIndex = Math.ceil(shadeStepCount / 2);
+        if (i < mainIndex) shade = color.darken(setStepSize);
+        if (i > mainIndex) shade = color.lighten(setStepSize);
+
+        return {
+          id: uid(),
+          color: shade,
+          isLight: shade.isLight(),
+        }
+      })
 	};
 };
 
@@ -52,12 +70,12 @@ export const ColorsProvider: React.FC = ({ children }) => {
 	const [colors, setColors] = useState<IColor[]>(
     new Array(3)
       .fill(null)
-      .map(() => getNewColor())
+      .map(() => getNewColor(shadeStepCount, setStepSize))
   );
 
 	const addColor = (): void => colors
-		? setColors(prev => [...prev, getNewColor()])
-		: setColors(prev => [getNewColor()]);
+		? setColors(prev => [...prev, getNewColor(shadeStepCount, setStepSize)])
+		: setColors(prev => [getNewColor(shadeStepCount, setStepSize)]);
 	
 	const removeColor = (id: string): void =>
     colors.length > 1 && setColors(colors.filter(color => color.id !== id));

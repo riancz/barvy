@@ -35,7 +35,7 @@ const Menu = () => {
 const MenuWrapper = styled.span`
 	display: flex;
 	flex-direction: column;
-  width: 250px;
+  width: 150px;
 	height: 100%;
 	padding: 10px;
 	border-left: 1px solid #DDDDEF;
