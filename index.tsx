@@ -1,14 +1,16 @@
 import React from 'react';
 import { render } from 'react-dom';
+import { ColorsProvider } from './src/contexts/colors';
+import Content from './src/components/organisms/Content';
+import Menu from './src/components/organisms/Menu';
 import './style.css';
 
 const App = () => {
   return (
-    <div>
-      <p>
-        Start editing to seeee some magic happen :)
-      </p>
-    </div>
+    <ColorsProvider>
+      <Content />
+      <Menu />
+    </ColorsProvider>
   );
 };
 
