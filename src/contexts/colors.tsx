@@ -19,7 +19,7 @@ interface IColorContext {
   colors: IColor[],
 	addColor: () => void,
 	removeColor: (id: string) => void,
-	changeColor: (id: string, color: IColor) => void,
+	changeColor: (id: string, color: string) => void,
   regenerateColor: (id: string) => void,
   shadeStepSize: number,
   changeShadeStepSize: (amount: number) => void,
@@ -45,7 +45,6 @@ const randomBetweenInts = (min: number, max: number): number =>
   Math.floor(Math.random() * (max - min + 1) + min);
 
 const generateShades = (color: any, shadeStepCount: number, shadeStepSize: number, shades?: IShade[]): IShade[] => {
-  console.log(shades);
   const mainIndex = Math.floor(shadeStepCount / 2);
   const oddOffset = shadeStepCount % 2 ? 0 : 1;
   const halfToDarken = shadeStepCount - (mainIndex + oddOffset);
@@ -68,13 +67,13 @@ const generateShades = (color: any, shadeStepCount: number, shadeStepSize: numbe
     });
 };
 
-const getNewColor = (shadeStepCount: number, shadeStepSize: number) => {
-  const color = tinycolor.random();
+const getNewColor = (shadeStepCount: number, shadeStepSize: number, color?: string) => {
+  const tinyColor = color ? tinycolor(color) : tinycolor.random();
   
 	return {
 		id: uid(),
-		color,
-    shades: generateShades(color, shadeStepCount, shadeStepSize)
+		color: tinyColor,
+    shades: generateShades(tinyColor, shadeStepCount, shadeStepSize)
 	};
 };
 
@@ -108,16 +107,20 @@ export const ColorsProvider: React.FC = ({ children }) => {
 	const removeColor = (id: string): void =>
     colors.length > 1 && setColors(colors.filter(color => color.id !== id));
 
-  const changeColor = (id: string, color: IColor): void => setColors(
-    colors.map(presentColor => presentColor.id === id
+  const changeColor = (id: string, color: string): void => {
+    const colorWithShades = getNewColor(shadeStepCount, shadeStepSize, color);
+    const updatedColors = colors.map(presentColor => presentColor.id === id
       ? {
-          ...color,
-          id: id,
+        ...colorWithShades,
+        id,
       }
       : presentColor
-  ));
+    );
 
-  const regenerateColor = (id: string): void => changeColor(id, getNewColor());
+    setColors(updatedColors);
+  };
+
+  const regenerateColor = (id: string): void => changeColor(id, tinycolor.random());
   const changeShadeStepSize = (amount: number): void => {
     amount < 1 && setShadeStepSize(1);
     setShadeStepSize(Number(amount));
