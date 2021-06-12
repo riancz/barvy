@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { SketchPicker } from 'react-color';
 import { CheckCircleOutlined } from '@ant-design/icons';
+import Column from '../atoms/Column';
 import { useColors } from '../contexts/colors';
 
 const handleClick = (hex) => {
@@ -15,49 +16,40 @@ const ColorColumn = ({ color }) => {
 			{color.shades.map(shade => (
 				<Color
 					color={shade.color}
-          main={shade.isMain}
+					main={shade.isMain}
 					key={shade.id}
-          onClick={() => handleClick(shade)}
+					onClick={() => handleClick(shade)}
 				>
-          <Hex isLight={shade.isLight}>{shade.color.toHexString()}</Hex>
-          <Copied><CheckCircleOutlined /> Copied!</Copied>
+					<Hex isLight={shade.isLight}>				{shade.color.toHexString()}
+					</Hex>
+					<Copied>
+						<CheckCircleOutlined /> Copied!
+					</Copied>
 				</Color>
 			))}
 		</Column>
 	);
 };
 
-const Column = styled.span`
-	display: flex;
-	flex-direction: column;
-	width: 80px;
-	height: 100%;
-	padding-left: 5px;
-
-	&:nth-of-type(1) {
-		padding-left: 0;
-	}
-`;
-
 const Hex = styled.span`
 	font-size: 10px;
-  color: ${props => props.isLight ? '#000' : '#FFF'};
-  opacity: 0;
-  transition: all 0.1s ease-in-out;
+	color: ${props => props.isLight ? '#000' : '#FFF'};
+	opacity: 0;
+	transition: all 0.1s ease-in-out;
 `;
 
 const Copied = styled.div`
-  position: absolute;
+	position: absolute;
 	font-size: 10px;
-  color: white;
-  opacity: 0;
-  transition: all 0.1s ease-in-out;
+	color: white;
+	opacity: 0;
+	transition: all 0.1s ease-in-out;
 `;
 
 const Color = styled.div.attrs(props => ({
-  style: {
-    backgroundColor: props.color,
-  },
+	style: {
+		backgroundColor: props.color,
+	},
 }))`
 	display: flex;
 	flex: ${props => props.main ? 2 : 1};

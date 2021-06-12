@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { ColorsProvider } from '../contexts/colors';
-import Content from '../components/organisms/Content';
+import Content from '../views/content';
 import Menu from '../components/organisms/Menu';
 
 const Main = () => {
